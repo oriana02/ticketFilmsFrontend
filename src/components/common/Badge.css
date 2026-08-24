@@ -1,0 +1,29 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--hairline);
+  color: var(--ink-soft);
+  background: rgba(255,255,255,0.5);
+}
+
+.badge--rust {
+  border-color: transparent;
+  background: var(--rust);
+  color: var(--white);
+}
+
+.badge--navy {
+  border-color: transparent;
+  background: var(--navy);
+  color: var(--white);
+}
+
+.badge--outline {
+  background: transparent;
+}

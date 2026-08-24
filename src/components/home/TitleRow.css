@@ -1,0 +1,19 @@
+.title-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(220px, 264px);
+  gap: 28px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--mist) transparent;
+}
+.title-row::-webkit-scrollbar { height: 5px; }
+.title-row::-webkit-scrollbar-thumb { background: var(--mist-dim); border-radius: 4px; }
+
+.title-row__item { scroll-snap-align: start; }
+
+@media (max-width: 640px) {
+  .title-row { grid-auto-columns: minmax(160px, 190px); gap: 18px; }
+}

@@ -1,0 +1,40 @@
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  padding: 28px 0 40px;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 48px;
+}
+
+.filter-bar__group { display: flex; flex-direction: column; gap: 10px; }
+
+.filter-bar__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+
+.filter-bar__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-pill {
+  background: transparent;
+  border: 1px solid var(--hairline);
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  padding: 7px 15px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+.filter-pill:hover { border-color: var(--navy); color: var(--ink); }
+.filter-pill.is-active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}

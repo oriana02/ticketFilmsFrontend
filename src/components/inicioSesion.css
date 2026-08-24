@@ -1,0 +1,172 @@
+.login {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg);
+  padding: 48px 20px;
+}
+
+.login__container {
+  width: 100%;
+  max-width: 440px;
+  animation: hero-body-in 0.8s var(--ease-editorial) both;
+}
+
+.login__title {
+  text-align: center;
+  font-size: clamp(28px, 4vw, 36px);
+  margin-bottom: 32px;
+  color: var(--ink);
+}
+
+.login__card {
+  background-color: var(--bg-raised);
+  padding: 40px 32px;
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-card);
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.login__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.login__input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--mist-dim);
+  border-radius: var(--radius-m);
+  background-color: var(--white);
+  color: var(--ink);
+  font-size: 16px;
+  transition: border-color 0.2s var(--ease-editorial), box-shadow 0.2s var(--ease-editorial);
+}
+
+.login__input:focus {
+  outline: none;
+  border-color: var(--rust);
+  box-shadow: 0 0 0 1px var(--rust);
+}
+
+.login__options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.login__remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.login__checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--rust);
+  cursor: pointer;
+}
+
+.login__forgot {
+  color: var(--rust);
+  font-weight: 500;
+  transition: color 0.2s var(--ease-editorial);
+}
+
+.login__forgot:hover {
+  color: var(--rust-dim);
+}
+
+.login__submit {
+  width: 100%;
+  padding: 12px 20px;
+  background-color: var(--rust);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-m);
+  font-weight: 500;
+  font-size: 16px;
+  transition: background-color 0.2s var(--ease-editorial);
+}
+
+.login__submit:hover {
+  background-color: var(--rust-dim);
+}
+
+/* Sección de Or continue with */
+.login__divider {
+  margin: 32px 0;
+  text-align: center;
+  position: relative;
+}
+
+.login__divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--mist-dim);
+  z-index: 1;
+}
+
+.login__divider span {
+  position: relative;
+  z-index: 2;
+  background-color: var(--bg-raised);
+  padding: 0 16px;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.login__social {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.login__social-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  background-color: transparent;
+  border: 1px solid var(--mist-dim);
+  border-radius: var(--radius-m);
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s var(--ease-editorial), color 0.2s var(--ease-editorial);
+}
+
+.login__social-btn:hover {
+  background-color: var(--bg);
+  color: var(--ink);
+}
+
+.login__social-btn img,
+.login__social-btn svg {
+  width: 20px;
+  height: 20px;
+}

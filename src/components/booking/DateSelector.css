@@ -1,0 +1,45 @@
+.date-selector {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 36px;
+}
+
+.date-selector__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 76px;
+  padding: 14px 10px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-m);
+  background: var(--bg-raised);
+  transition: all 0.2s ease;
+}
+.date-selector__day:hover { border-color: var(--navy); }
+.date-selector__day.is-active {
+  background: var(--navy);
+  border-color: var(--navy);
+}
+.date-selector__day.is-active * { color: var(--white); }
+
+.date-selector__weekday {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  color: var(--mist);
+  letter-spacing: 0.06em;
+}
+.date-selector__num {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--ink);
+}
+.date-selector__month {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}

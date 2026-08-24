@@ -1,0 +1,42 @@
+.booking-steps {
+  display: flex;
+  gap: 0;
+  padding: 32px 0 40px;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 48px;
+  font-family: var(--font-mono);
+}
+
+.booking-steps__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 28px;
+  margin-right: 28px;
+  border-right: 1px dashed var(--hairline);
+  color: var(--mist);
+}
+.booking-steps__item:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+
+.booking-steps__frame {
+  font-size: 12px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  padding: 2px 6px;
+}
+
+.booking-steps__label {
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.booking-steps__item.is-current { color: var(--rust); }
+.booking-steps__item.is-done { color: var(--navy); }
+
+@media (max-width: 640px) {
+  .booking-steps { flex-wrap: wrap; gap: 12px 0; }
+  .booking-steps__item { padding-right: 14px; margin-right: 14px; }
+  .booking-steps__label { display: none; }
+  .booking-steps__item.is-current .booking-steps__label { display: inline; }
+}
