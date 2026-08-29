@@ -1,4 +1,4 @@
-import "./FilterBar.css";
+import "../../styles/FilterBar.css";
 
 // groups: [{ key, label, options: [{value,label}], value, onChange }]
 export default function FilterBar({ groups }) {

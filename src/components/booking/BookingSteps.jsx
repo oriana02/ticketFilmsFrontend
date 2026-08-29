@@ -1,4 +1,4 @@
-import "./BookingSteps.css";
+import "../../styles/BookingSteps.css";
 
 const STEPS = ["Función", "Asientos", "Resumen", "Confirmación"];
 

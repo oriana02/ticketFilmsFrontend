@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { movies } from "../../data/movies";
 import { events } from "../../data/events";
-import "./Navbar.css";
+import "../../styles/Navbar.css";
 
 export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);

@@ -170,3 +170,21 @@
   width: 20px;
   height: 20px;
 }
+.login__subtitle {
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.login__google {
+  display: flex;
+  justify-content: center;
+}
+
+.login__error {
+  margin-top: 16px;
+  color: var(--rust-dim);
+  font-size: 13.5px;
+  text-align: center;
+}

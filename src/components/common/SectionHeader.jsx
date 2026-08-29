@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./SectionHeader.css";
+import "../../styles/SectionHeader.css";
 
 export default function SectionHeader({ eyebrow, title, note, to, toLabel }) {
   return (

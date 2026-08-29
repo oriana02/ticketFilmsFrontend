@@ -1,4 +1,4 @@
-import "./DateSelector.css";
+import "../../styles/DateSelector.css";
 
 export default function DateSelector({ days, activeIndex, onSelect }) {
   return (

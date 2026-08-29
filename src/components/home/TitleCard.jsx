@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./TitleCard.css";
+import "../../styles/TitleCard.css";
 
 // type: 'pelicula' | 'evento'
 export default function TitleCard({ type, title, size = "m" }) {

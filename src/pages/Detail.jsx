@@ -4,7 +4,7 @@ import { getMovieById } from "../data/movies";
 import { getEventById } from "../data/events";
 import { useBooking } from "../context/BookingContext";
 import Badge from "../components/common/Badge";
-import "./Detail.css";
+import "../styles/Detail.css";
 
 export default function Detail() {
   const { type, id } = useParams();

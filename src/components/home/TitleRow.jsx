@@ -1,5 +1,5 @@
 import TitleCard from "./TitleCard";
-import "./TitleRow.css";
+import "../../styles/TitleRow.css";
 
 export default function TitleRow({ items, type }) {
   return (
