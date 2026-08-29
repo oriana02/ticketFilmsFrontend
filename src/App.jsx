@@ -8,6 +8,7 @@ import Movies from "./pages/Movies";
 import Events from "./pages/Events";
 import Detail from "./pages/Detail";
 import Showtimes from "./pages/Showtimes";
+import Seats from "./pages/Seats";
 import ComingSoon from "./pages/ComingSoon";
 import Login from "./pages/Login";
 
@@ -34,7 +35,7 @@ export default function App() {
                 path="/titulo/:type/:id/asientos"
                 element={
                   <RequireAuth>
-                    <ComingSoon label="Selección de asientos" />
+                    <Seats />
                   </RequireAuth>
                 }
               />
