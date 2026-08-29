@@ -1,4 +1,4 @@
-import React from "react";
+import { GoogleLogin } from "@react-oauth/google";
 import "./inicioSesion.css";
 
 export default function InicioSesion() {
@@ -27,7 +27,7 @@ export default function InicioSesion() {
             {/* Campo de Contraseña */}
             <div className="login__field">
               <label htmlFor="password" className="login__label">
-                Contrseña
+                Contraseña
               </label>
               <input
                 id="password"
