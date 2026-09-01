@@ -1,13 +1,20 @@
-import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "react-oidc-context";
+import { useLocation } from "react-router-dom";
 
-// RF-17: exige autenticación antes de seleccionar asientos o confirmar compra.
 export default function RequireAuth({ children }) {
-  const { isAuthenticated } = useAuth();
+  const auth = useAuth();
   const location = useLocation();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+  if (auth.isLoading) {
+    return <div>Cargando...</div>;
   }
+
+  if (!auth.isAuthenticated) {
+    // RF-18 / CA-04: guarda a dónde quería ir el usuario antes de redirigir
+    sessionStorage.setItem("post_login_redirect", location.pathname);
+    auth.signinRedirect();
+    return null;
+  }
+
   return children;
 }

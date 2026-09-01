@@ -1,16 +1,24 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "react-oidc-context"; // ← cambiado
 import { movies } from "../../data/movies";
 import { events } from "../../data/events";
 import "../../styles/Navbar.css";
+
+const COGNITO_CLIENT_ID = import.meta.env.VITE_COGNITO_CLIENT_ID;
+const COGNITO_DOMAIN = import.meta.env.VITE_COGNITO_DOMAIN;
+const LOGOUT_URI =
+  import.meta.env.VITE_COGNITO_LOGOUT_URI || "http://localhost:5173/";
 
 export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
+  const auth = useAuth(); // ← cambiado
   const navigate = useNavigate();
+
+  const isAuthenticated = auth.isAuthenticated;
+  const user = auth.user?.profile; // { email, name, sub, ... }
 
   const results =
     query.trim().length > 1
@@ -30,6 +38,12 @@ export default function Navbar() {
     navigate(`/titulo/${item.kind}/${item.id}`);
   }
 
+  async function handleLogout() {
+    await auth.removeUser(); // limpia el estado local primero
+    const url = `${COGNITO_DOMAIN}/logout?client_id=${COGNITO_CLIENT_ID}&logout_uri=${encodeURIComponent(LOGOUT_URI)}`;
+    window.location.href = url;
+  }
+
   return (
     <header className="nav">
       <div className="container nav__row">
@@ -39,14 +53,26 @@ export default function Navbar() {
         </Link>
 
         <nav className={`nav__links ${menuOpen ? "is-open" : ""}`}>
-          <NavLink to="/peliculas" onClick={() => setMenuOpen(false)}>Películas</NavLink>
-          <NavLink to="/eventos" onClick={() => setMenuOpen(false)}>Eventos</NavLink>
+          <NavLink to="/peliculas" onClick={() => setMenuOpen(false)}>
+            Películas
+          </NavLink>
+          <NavLink to="/eventos" onClick={() => setMenuOpen(false)}>
+            Eventos
+          </NavLink>
           {isAuthenticated ? (
-            <NavLink to="/cuenta" onClick={() => setMenuOpen(false)}>Mis boletos</NavLink>
-          ) : (
-            <NavLink to="/login" onClick={() => setMenuOpen(false)} className="nav__links-mobile-login">
-              Iniciar sesión
+            <NavLink to="/cuenta" onClick={() => setMenuOpen(false)}>
+              Mis boletos
             </NavLink>
+          ) : (
+            <button
+              className="nav__links-mobile-login"
+              onClick={() => {
+                setMenuOpen(false);
+                navigate("/login");
+              }}
+            >
+              Iniciar sesión
+            </button>
           )}
         </nav>
 
@@ -62,13 +88,19 @@ export default function Navbar() {
           {isAuthenticated ? (
             <div className="nav__user">
               <span className="nav__user-avatar" aria-hidden="true">
-                {user.name.charAt(0)}
+                {user?.name?.charAt(0) || user?.email?.charAt(0)}
               </span>
-              <span className="nav__user-name">{user.name.split(" ")[0]}</span>
-              <button className="nav__user-logout" onClick={logout}>Salir</button>
+              <span className="nav__user-name">
+                {user?.name?.split(" ")[0] || user?.email}
+              </span>
+              <button className="nav__user-logout" onClick={handleLogout}>
+                Salir
+              </button>
             </div>
           ) : (
-            <Link to="/login" className="nav__login">Ingresar</Link>
+            <button className="nav__login" onClick={() => navigate("/login")}>
+              Ingresar
+            </button>
           )}
 
           <button
@@ -76,7 +108,9 @@ export default function Navbar() {
             aria-label="Abrir menú"
             onClick={() => setMenuOpen((v) => !v)}
           >
-            <span /><span /><span />
+            <span />
+            <span />
+            <span />
           </button>
         </div>
       </div>
@@ -99,7 +133,9 @@ export default function Navbar() {
                       <img src={item.poster} alt="" />
                       <span>
                         <strong>{item.title}</strong>
-                        <em>{item.kind === "pelicula" ? "Película" : "Evento"}</em>
+                        <em>
+                          {item.kind === "pelicula" ? "Película" : "Evento"}
+                        </em>
                       </span>
                     </button>
                   </li>
@@ -117,7 +153,15 @@ function SearchIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
       <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.6" />
-      <line x1="21" y1="21" x2="16.2" y2="16.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <line
+        x1="21"
+        y1="21"
+        x2="16.2"
+        y2="16.2"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
