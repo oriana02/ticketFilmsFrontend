@@ -39,9 +39,23 @@ export default function Navbar() {
   }
 
   async function handleLogout() {
-    await auth.removeUser(); // limpia el estado local primero
-    const url = `${COGNITO_DOMAIN}/logout?client_id=${COGNITO_CLIENT_ID}&logout_uri=${encodeURIComponent(LOGOUT_URI)}`;
-    window.location.href = url;
+    try {
+      // 1) Limpia el estado de React
+      await auth.removeUser();
+
+      // 2) Limpia manualmente el storage por si acaso (robusto)
+      const oidcStorageKey = `oidc.user:${import.meta.env.VITE_COGNITO_AUTHORITY}:${COGNITO_CLIENT_ID}`;
+      window.sessionStorage.removeItem(oidcStorageKey);
+      window.localStorage.removeItem(oidcStorageKey);
+
+      // 3) Ahora sí, redirige a Cognito logout
+      const url = `${COGNITO_DOMAIN}/logout?client_id=${COGNITO_CLIENT_ID}&logout_uri=${encodeURIComponent(LOGOUT_URI)}`;
+      window.location.replace(url); // replace en vez de href (no deja historial)
+    } catch (err) {
+      console.error("Error al cerrar sesión:", err);
+      // Fallback: forzar limpieza + redirect igual
+      window.location.replace(LOGOUT_URI);
+    }
   }
 
   return (

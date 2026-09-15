@@ -31,6 +31,14 @@ export default function Detail() {
 
   const isMovie = type === "pelicula";
 
+  // Specs se arman condicionalmente: si el backend no trae el campo
+  // (genres, cast, country, format, city...), simplemente no se muestra
+  // en vez de renderizar "undefined" o un badge vacío.
+  const genres = data.genres?.length ? data.genres : [];
+  const cast = data.cast?.length ? data.cast.join(", ") : null;
+  const origen = [data.country, data.year].filter(Boolean).join(" · ") || null;
+  const duracion = data.duration ? `${data.duration} min` : null;
+
   return (
     <article className="detail">
       <div className="detail__hero">
@@ -50,14 +58,14 @@ export default function Detail() {
           <div className="detail__tags">
             {isMovie ? (
               <>
-                {data.genres.map((g) => <Badge key={g}>{g}</Badge>)}
-                <Badge tone="navy">{data.format}</Badge>
-                <Badge tone="outline">{data.rating} años</Badge>
+                {genres.map((g) => <Badge key={g}>{g}</Badge>)}
+                {data.format && <Badge tone="navy">{data.format}</Badge>}
+                {data.rating && <Badge tone="outline">{data.rating} años</Badge>}
               </>
             ) : (
               <>
-                <Badge tone="navy">{data.category}</Badge>
-                <Badge tone="outline">{data.city}</Badge>
+                {data.category && <Badge tone="navy">{data.category}</Badge>}
+                {data.city && <Badge tone="outline">{data.city}</Badge>}
               </>
             )}
           </div>
@@ -68,16 +76,16 @@ export default function Detail() {
             {isMovie ? (
               <>
                 <Spec label="Dirección" value={data.director} />
-                <Spec label="Reparto" value={data.cast.join(", ")} />
-                <Spec label="Duración" value={`${data.duration} min`} />
+                <Spec label="Reparto" value={cast} />
+                <Spec label="Duración" value={duracion} />
                 <Spec label="Idioma" value={data.language} />
-                <Spec label="Origen" value={`${data.country} · ${data.year}`} />
+                <Spec label="Origen" value={origen} />
               </>
             ) : (
               <>
                 <Spec label="Sala / lugar" value={data.venue} />
                 <Spec label="Ciudad" value={data.city} />
-                <Spec label="Duración" value={`${data.duration} min`} />
+                <Spec label="Duración" value={duracion} />
                 <Spec label="Próxima fecha" value={data.dateLabel} />
               </>
             )}
@@ -102,7 +110,9 @@ export default function Detail() {
   );
 }
 
+// No renderiza el <dt>/<dd> si no hay valor — evita specs vacíos o "undefined".
 function Spec({ label, value }) {
+  if (!value) return null;
   return (
     <div className="detail__spec">
       <dt>{label}</dt>

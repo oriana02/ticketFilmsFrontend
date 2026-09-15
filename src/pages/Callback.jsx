@@ -1,14 +1,17 @@
 import { useAuth } from "react-oidc-context";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Callback() {
   const auth = useAuth();
   const navigate = useNavigate();
+  const hasRedirected = useRef(false); // ← evita doble redirect
 
   useEffect(() => {
-    if (auth.isAuthenticated) {
+    if (auth.isAuthenticated && !hasRedirected.current) {
+      hasRedirected.current = true;
       const redirectTo = sessionStorage.getItem("post_login_redirect") || "/";
+      console.log("Redirecting to:", redirectTo);
       sessionStorage.removeItem("post_login_redirect");
       navigate(redirectTo, { replace: true });
     }

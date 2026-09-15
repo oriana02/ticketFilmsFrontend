@@ -7,11 +7,12 @@ export default function Login() {
   const location = useLocation();
 
   function handleGoogleLogin() {
-    // RF-18: guarda a dónde quería ir el usuario antes del login
-    const from = location.state?.from?.pathname || "/";
-    sessionStorage.setItem("post_login_redirect", from);
+    // Solo guarda si no hay ya un redirect pendiente (RequireAuth ya lo guardó)
+    if (!sessionStorage.getItem("post_login_redirect")) {
+      const from = location.state?.from?.pathname || "/";
+      sessionStorage.setItem("post_login_redirect", from);
+    }
 
-    // Salta directo a Google, sin mostrar el selector de Cognito
     auth.signinRedirect({
       extraQueryParams: { identity_provider: "Google" },
     });

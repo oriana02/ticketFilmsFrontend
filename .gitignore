@@ -24,6 +24,4 @@ dist-ssr
 *.sw?
 
 # Variables locales (Client ID de Google, nunca subir)
-
-# Variables locales (Client ID de Google, nunca subir)
 .env
