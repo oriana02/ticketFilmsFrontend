@@ -4,6 +4,7 @@ import { getEventoPorId, getFuncionesPorEvento } from "../services/carteleraServ
 import { adaptEvento, buildSchedule } from "../services/carteleraAdapter";
 import { formatMoney } from "../data/showtimes";
 import { useBooking } from "../context/BookingContext";
+import useSalas from "../hooks/useSalas";
 import DateSelector from "../components/booking/DateSelector";
 import BookingSteps from "../components/booking/BookingSteps";
 import "../styles/Showtimes.css";
@@ -23,6 +24,11 @@ export default function Showtimes() {
   } = useBooking();
   const [dayIndex, setDayIndex] = useState(0);
   const [state, setState] = useState({ status: "loading", data: null, schedule: [] });
+  const salas = useSalas();
+
+  // La función guarda el código de la sala (ej. SALA-02); acá se muestra su nombre.
+  const salaNombre = (codigo) =>
+    salas.find((s) => s.sala_codigo === codigo)?.nombre ?? codigo;
 
   useEffect(() => {
     let cancelled = false;
@@ -73,7 +79,7 @@ export default function Showtimes() {
   const day = schedule[dayIndex] ?? schedule[0];
 
   function handlePick(showtime) {
-    chooseShowtime(showtime);
+    chooseShowtime({ ...showtime, venueName: salaNombre(showtime.salaCodigo) });
     navigate(`/titulo/${type}/${id}/asientos`);
   }
 
@@ -156,7 +162,7 @@ export default function Showtimes() {
                 <div className="showtime-card__time">{s.time}</div>
 
                 <div className="showtime-card__meta">
-                  <span className="showtime-card__venue">{s.venueName}</span>
+                  <span className="showtime-card__venue">{salaNombre(s.venueId)}</span>
                   <span className="showtime-card__format">{s.format}</span>
                 </div>
 

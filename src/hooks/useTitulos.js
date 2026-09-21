@@ -16,19 +16,29 @@ export default function useTitulos() {
     let cancelled = false;
     getEventos()
       .then((list) => {
-        const all = list.map(adaptEvento).filter((t) => t.status !== "inactivo");
+        const all = list
+          .map(adaptEvento)
+          .filter((t) => t.status !== "inactivo");
         cache = {
           movies: all.filter((t) => t.type === "pelicula"),
           events: all.filter((t) => t.type === "evento"),
         };
         if (!cancelled) setState({ ...cache, loading: false, error: null });
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error(error);
         if (!cancelled) {
-          setState({ movies: [], events: [], loading: false, error: "No pudimos cargar la cartelera" });
+          setState({
+            movies: [],
+            events: [],
+            loading: false,
+            error: "No pudimos cargar la cartelera",
+          });
         }
       });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return state;

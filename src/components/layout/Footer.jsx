@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import useSalas from "../../hooks/useSalas";
 import "../../styles/Footer.css";
 
 export default function Footer() {
+  const salas = useSalas();
+
   return (
     <footer className="footer">
       <div className="container footer__grid">
@@ -28,9 +31,9 @@ export default function Footer() {
 
         <div className="footer__col">
           <span className="eyebrow">Salas</span>
-          <span className="footer__static">Sala 1 — Lumière</span>
-          <span className="footer__static">Sala 2 — Meliès</span>
-          <span className="footer__static">Sala 3 — Varda</span>
+          {salas.map((s) => (
+            <span className="footer__static" key={s.id}>{s.nombre}</span>
+          ))}
         </div>
       </div>
       <div className="container footer__bottom">
