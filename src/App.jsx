@@ -8,9 +8,12 @@ import Events from "./pages/Events";
 import Detail from "./pages/Detail";
 import Showtimes from "./pages/Showtimes";
 import Seats from "./pages/Seats";
+import Checkout from "./pages/Checkout";
+import Confirmation from "./pages/Confirmation";
+import MyTickets from "./pages/MyTickets";
 import ComingSoon from "./pages/ComingSoon";
 import Login from "./pages/Login";
-import Callback from "./pages/Callback"; // ← agregar
+import Callback from "./pages/Callback";
 
 export default function App() {
   return (
@@ -35,7 +38,7 @@ export default function App() {
               path="/titulo/:type/:id/resumen"
               element={
                 <RequireAuth>
-                  <ComingSoon label="Resumen de compra" />
+                  <Checkout />
                 </RequireAuth>
               }
             />
@@ -43,24 +46,21 @@ export default function App() {
               path="/confirmacion/:code"
               element={
                 <RequireAuth>
-                  <ComingSoon label="Confirmación de compra" />
+                  <Confirmation />
                 </RequireAuth>
               }
             />
             <Route path="/login" element={<Login />} />
-            <Route path="/callback" element={<Callback />} /> {/* ← agregar */}
+            <Route path="/callback" element={<Callback />} />
             <Route
               path="/cuenta"
               element={
                 <RequireAuth>
-                  <ComingSoon label="Mis boletos" />
+                  <MyTickets />
                 </RequireAuth>
               }
             />
-            <Route
-              path="*"
-              element={<ComingSoon label="Página no encontrada" />}
-            />
+            <Route path="*" element={<ComingSoon label="Página no encontrada" />} />
           </Route>
         </Routes>
       </BrowserRouter>
