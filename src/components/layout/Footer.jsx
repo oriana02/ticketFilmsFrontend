@@ -9,10 +9,12 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer__grid">
         <div className="footer__brand">
-          <span className="nav__logo-mark" aria-hidden="true">TF</span>
+          <span className="nav__logo-mark" aria-hidden="true">
+            TF
+          </span>
           <p>
-            TicketFilms es una sala de exhibición digital: cartelera, festivales
-            y funciones especiales, curadas como una revista de cine.
+            TicketFilms reúne cine independiente, estrenos, festivales y
+            funciones especiales en un solo lugar.
           </p>
         </div>
 
@@ -32,7 +34,9 @@ export default function Footer() {
         <div className="footer__col">
           <span className="eyebrow">Salas</span>
           {salas.map((s) => (
-            <span className="footer__static" key={s.id}>{s.nombre}</span>
+            <span className="footer__static" key={s.id}>
+              {s.nombre}
+            </span>
           ))}
         </div>
       </div>

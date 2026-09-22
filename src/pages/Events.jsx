@@ -8,7 +8,10 @@ export default function Events() {
   const [category, setCategory] = useState("Todos");
   const [city, setCity] = useState("Todas");
 
-  const categories = useMemo(() => ["Todos", ...new Set(events.map((e) => e.category))], [events]);
+  const categories = useMemo(
+    () => ["Todos", ...new Set(events.map((e) => e.category))],
+    [events],
+  );
   const cities = useMemo(
     () => ["Todas", ...new Set(events.map((e) => e.city).filter(Boolean))],
     [events],
@@ -25,10 +28,11 @@ export default function Events() {
   return (
     <div className="container">
       <div className="page-head">
-        <span className="eyebrow">Fuera de la sala habitual</span>
+        <span className="eyebrow">Tu próximo evento comienza aquí</span>
         <h1 className="page-head__title">Eventos</h1>
         <p className="page-head__note">
-          Festivales, conciertos y conversatorios en salas asociadas a la red TicketFilms.
+          Descubre conciertos, festivales y eventos especiales para disfrutar en
+          vivo.
         </p>
       </div>
 
@@ -52,9 +56,13 @@ export default function Events() {
       />
 
       {loading ? (
-        <div className="empty-state"><strong>Cargando eventos…</strong></div>
+        <div className="empty-state">
+          <strong>Cargando eventos…</strong>
+        </div>
       ) : error ? (
-        <div className="empty-state"><strong>{error}</strong></div>
+        <div className="empty-state">
+          <strong>{error}</strong>
+        </div>
       ) : filtered.length === 0 ? (
         <div className="empty-state">
           <strong>No hay eventos para este filtro</strong>

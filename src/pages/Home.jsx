@@ -35,7 +35,7 @@ export default function Home() {
           <SectionHeader
             eyebrow="Programación semanal"
             title="En cartelera"
-            note="Estrenos y permanencias seleccionadas por nuestro equipo de programación, no por algoritmo."
+            note="Explora los estrenos de la semana o adelanta tu lugar para lo que se viene."
             to="/peliculas"
           />
           <TitleRow items={enCartelera} type="pelicula" />
@@ -57,9 +57,9 @@ export default function Home() {
       {events.length > 0 && (
         <section className="container section section--last">
           <SectionHeader
-            eyebrow="Fuera de la sala habitual"
+            eyebrow="Tu próximo evento comienza aquí"
             title="Eventos"
-            note="Conciertos, conversatorios y funciones especiales en salas asociadas."
+            note="Descubre conciertos, festivales y eventos especiales para disfrutar en vivo."
             to="/eventos"
           />
           <TitleRow items={events} type="evento" />
