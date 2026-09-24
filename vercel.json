@@ -1,5 +1,9 @@
 {
   "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http://ec2-54-145-200-59.compute-1.amazonaws.com:8080/api/:path*"
+    },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
