@@ -11,7 +11,7 @@ export async function getEventoPorId(id) {
 }
 
 export async function getFuncionPorId(id) {
-  const { data } = await apiClient.get(`/api/cartelera/funcion/${id}`);
+  const { data } = await apiClient.get(`/api/cartelera/funciones/${id}`);
   return data;
 }
 

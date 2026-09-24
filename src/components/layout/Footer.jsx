@@ -1,15 +1,20 @@
 import { Link } from "react-router-dom";
+import useSalas from "../../hooks/useSalas";
 import "../../styles/Footer.css";
 
 export default function Footer() {
+  const salas = useSalas();
+
   return (
     <footer className="footer">
       <div className="container footer__grid">
         <div className="footer__brand">
-          <span className="nav__logo-mark" aria-hidden="true">TF</span>
+          <span className="nav__logo-mark" aria-hidden="true">
+            TF
+          </span>
           <p>
-            TicketFilms es una sala de exhibición digital: cartelera, festivales
-            y funciones especiales, curadas como una revista de cine.
+            TicketFilms reúne cine independiente, estrenos, festivales y
+            funciones especiales en un solo lugar.
           </p>
         </div>
 
@@ -28,9 +33,11 @@ export default function Footer() {
 
         <div className="footer__col">
           <span className="eyebrow">Salas</span>
-          <span className="footer__static">Sala 1 — Lumière</span>
-          <span className="footer__static">Sala 2 — Meliès</span>
-          <span className="footer__static">Sala 3 — Varda</span>
+          {salas.map((s) => (
+            <span className="footer__static" key={s.id}>
+              {s.nombre}
+            </span>
+          ))}
         </div>
       </div>
       <div className="container footer__bottom">

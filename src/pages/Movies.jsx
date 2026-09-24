@@ -2,14 +2,18 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import TitleCard from "../components/home/TitleCard";
 import FilterBar from "../components/common/FilterBar";
-import { movies } from "../data/movies";
-
-const GENRES = ["Todos", ...new Set(movies.flatMap((m) => m.genres))];
+import useTitulos from "../hooks/useTitulos";
 
 export default function Movies() {
+  const { movies, loading, error } = useTitulos();
   const [params, setParams] = useSearchParams();
   const status = params.get("estado") || "cartelera";
   const [genre, setGenre] = useState("Todos");
+
+  const genres = useMemo(
+    () => ["Todos", ...new Set(movies.flatMap((m) => m.genres))],
+    [movies],
+  );
 
   const filtered = useMemo(() => {
     return movies.filter((m) => {
@@ -17,7 +21,7 @@ export default function Movies() {
       const matchesGenre = genre === "Todos" || m.genres.includes(genre);
       return matchesStatus && matchesGenre;
     });
-  }, [status, genre]);
+  }, [movies, status, genre]);
 
   return (
     <div className="container">
@@ -46,12 +50,16 @@ export default function Movies() {
             label: "Género",
             value: genre,
             onChange: setGenre,
-            options: GENRES.map((g) => ({ value: g, label: g })),
+            options: genres.map((g) => ({ value: g, label: g })),
           },
         ]}
       />
 
-      {filtered.length === 0 ? (
+      {loading ? (
+        <div className="empty-state"><strong>Cargando películas…</strong></div>
+      ) : error ? (
+        <div className="empty-state"><strong>{error}</strong></div>
+      ) : filtered.length === 0 ? (
         <div className="empty-state">
           <strong>No hay funciones para este filtro</strong>
           <p>Prueba con otro género o revisa la otra pestaña de estado.</p>

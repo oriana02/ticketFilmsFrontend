@@ -15,22 +15,19 @@ export async function getMapaFuncion(funcionId) {
   return data;
 }
 
-export async function consultarReserva(reservaId) {
-  const { data } = await apiClient.get(`/api/asientos/reserva/${reservaId}`);
-  return data;
-}
+// El usuario se obtiene del JWT en el backend, no viaja en el body.
 
-export async function liberarReserva(reservaId) {
-  await apiClient.delete(`/api/asientos/reserva/${reservaId}`);
-}
-
-// TODO: usuarioId debería salir del JWT en el backend, no viajar en el body
-// (ver nota de seguridad arriba). Se deja así mientras el backend no cambie.
-export async function reservarAsientos({ usuarioId, funcionId, asientosSolicitados }) {
+export async function reservarAsientos({ funcionId, asientosSolicitados }) {
   const { data } = await apiClient.post("/api/asientos/reserva", {
-    usuarioId,
     funcionId,
     asientosSolicitados,
   });
   return data;
+}
+
+// En axios el cuerpo de un DELETE va dentro de `data`.
+export async function liberarReserva({ funcionId, asientosSolicitados }) {
+  await apiClient.delete("/api/asientos/reserva", {
+    data: { funcionId, asientosSolicitados },
+  });
 }

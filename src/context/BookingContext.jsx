@@ -1,86 +1,91 @@
 import { createContext, useContext, useMemo, useState, useCallback } from "react";
 
-// Estado compartido del flujo de compra: título -> función -> asientos ->
-// resumen -> confirmación. Equivale, en el sistema real, a lo que orquestaría
-// el frontend entre ms-cartelera, ms-asientos y ms-boletos a través del
-// API Manager.
+// Estado del flujo de compra: título -> función -> cantidad -> asientos ->
+// reserva -> resumen. La compra en sí la hace ms-boletos.
 const BookingContext = createContext(null);
 
-function makeTicketCode() {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let code = "";
-  for (let i = 0; i < 8; i++) code += chars[Math.floor(Math.random() * chars.length)];
-  return `TF-${code.slice(0, 4)}-${code.slice(4)}`;
-}
+const MIN_SEATS = 1;
+const MAX_SEATS = 10; // mismo tope por reserva que ms-asientos
+const DEFAULT_SEATS = 2;
+const RESERVATION_MS = 5 * 60 * 1000; // ms-asientos mantiene la reserva 5 minutos
 
 export function BookingProvider({ children }) {
   const [title, setTitle] = useState(null); // { type: 'pelicula'|'evento', data }
   const [showtime, setShowtimeState] = useState(null);
+  const [seatQuantity, setSeatQuantityState] = useState(DEFAULT_SEATS);
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [order, setOrder] = useState(null);
+  const [reservation, setReservation] = useState(null); // { expiresAt }
 
   const setTitleAndReset = useCallback((titleType, data) => {
     setTitle({ type: titleType, data });
     setShowtimeState(null);
     setSelectedSeats([]);
+    setReservation(null);
+    setSeatQuantityState(DEFAULT_SEATS);
   }, []);
 
   const chooseShowtime = useCallback((newShowtime) => {
     setShowtimeState(newShowtime);
     setSelectedSeats([]);
+    setReservation(null);
   }, []);
 
-  const toggleSeat = useCallback((seat) => {
-    if (seat.status === "occupied") return;
-    setSelectedSeats((prev) => {
-      const exists = prev.find((s) => s.id === seat.id);
-      if (exists) return prev.filter((s) => s.id !== seat.id);
-      if (prev.length >= 8) return prev; // límite razonable por compra
-      return [...prev, seat];
-    });
+  const setSeatQuantity = useCallback((value) => {
+    const n = Math.min(MAX_SEATS, Math.max(MIN_SEATS, Number(value) || MIN_SEATS));
+    setSeatQuantityState(n);
+    setSelectedSeats((prev) => prev.slice(0, n));
   }, []);
+
+  const toggleSeat = useCallback(
+    (seat) => {
+      if (seat.status === "occupied") return;
+      setSelectedSeats((prev) => {
+        const exists = prev.find((s) => s.id === seat.id);
+        if (exists) return prev.filter((s) => s.id !== seat.id);
+        if (prev.length >= seatQuantity) return prev;
+        return [...prev, seat];
+      });
+    },
+    [seatQuantity],
+  );
 
   const clearSeats = useCallback(() => setSelectedSeats([]), []);
+
+  const startReservation = useCallback(() => {
+    setReservation({ expiresAt: Date.now() + RESERVATION_MS });
+  }, []);
 
   const totalPrice = useMemo(() => {
     if (!showtime) return 0;
     return selectedSeats.reduce(
       (sum, s) => sum + (s.category === "premium" ? showtime.pricePremium : showtime.priceRegular),
-      0
+      0,
     );
   }, [selectedSeats, showtime]);
-
-  const confirmPurchase = useCallback(() => {
-    const newOrder = {
-      code: makeTicketCode(),
-      title,
-      showtime,
-      seats: selectedSeats,
-      totalPrice,
-      purchasedAt: new Date().toISOString(),
-    };
-    setOrder(newOrder);
-    return newOrder;
-  }, [title, showtime, selectedSeats, totalPrice]);
 
   const resetBooking = useCallback(() => {
     setTitle(null);
     setShowtimeState(null);
     setSelectedSeats([]);
-    setOrder(null);
+    setReservation(null);
+    setSeatQuantityState(DEFAULT_SEATS);
   }, []);
 
   const value = {
     title,
     showtime,
     selectedSeats,
+    seatQuantity,
+    minSeats: MIN_SEATS,
+    maxSeats: MAX_SEATS,
     totalPrice,
-    order,
+    reservation,
     setTitleAndReset,
     chooseShowtime,
+    setSeatQuantity,
     toggleSeat,
     clearSeats,
-    confirmPurchase,
+    startReservation,
     resetBooking,
   };
 

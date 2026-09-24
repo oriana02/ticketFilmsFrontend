@@ -5,7 +5,7 @@ export const oidcConfig = {
   client_id: import.meta.env.VITE_COGNITO_CLIENT_ID,
   redirect_uri: import.meta.env.VITE_REDIRECT_URI,
   response_type: "code",
-  scope: "openid email",
+  scope: "openid email ticketfilms/api",
   userStore: new WebStorageStateStore({ store: window.sessionStorage }),
   automaticSilentRenew: true,
   onSigninCallback: () => {
