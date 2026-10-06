@@ -54,7 +54,9 @@
   background-color: var(--white);
   color: var(--ink);
   font-size: 16px;
-  transition: border-color 0.2s var(--ease-editorial), box-shadow 0.2s var(--ease-editorial);
+  transition:
+    border-color 0.2s var(--ease-editorial),
+    box-shadow 0.2s var(--ease-editorial);
 }
 
 .login__input:focus {
@@ -157,7 +159,9 @@
   color: var(--ink-soft);
   font-size: 14px;
   font-weight: 500;
-  transition: background-color 0.2s var(--ease-editorial), color 0.2s var(--ease-editorial);
+  transition:
+    background-color 0.2s var(--ease-editorial),
+    color 0.2s var(--ease-editorial);
 }
 
 .login__social-btn:hover {
@@ -187,4 +191,22 @@
   color: var(--rust-dim);
   font-size: 13.5px;
   text-align: center;
+}
+
+.login__google-btn {
+  padding: 13px 28px;
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-m);
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 6px 16px -6px rgba(38, 59, 74, 0.7);
+  transition:
+    background-color 0.2s ease,
+    transform 0.25s var(--ease-editorial);
+}
+.login__google-btn:hover {
+  background: var(--navy-soft);
+  transform: translateY(-2px);
 }
