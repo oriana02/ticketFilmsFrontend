@@ -5,8 +5,13 @@ const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL ?? "",
 });
 
-const esPublica = (url = "") =>
-  url.includes("/api/cartelera") || url.includes("/api/asientos/sala");
+// Debe coincidir con lo que el gateway y los microservicios dejan sin token:
+//  - GET /api/cartelera/**        (público)
+//  - GET /api/asientos/sala       (solo la ruta exacta, sin /{id})
+const esPublica = (url = "") => {
+  const path = url.split("?")[0].replace(/\/+$/, "");
+  return path.startsWith("/api/cartelera") || path === "/api/asientos/sala";
+};
 
 apiClient.interceptors.request.use(async (config) => {
   if (esPublica(config.url)) {

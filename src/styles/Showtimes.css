@@ -1,3 +1,10 @@
+.showtimes__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 48px;
+  align-items: start;
+}
+
 .showtimes__head {
   padding-bottom: 8px;
 }
@@ -20,11 +27,18 @@
   border-radius: var(--radius-m);
   transition:
     border-color 0.2s ease,
+    box-shadow 0.2s ease,
     transform 0.2s var(--ease-editorial);
 }
 .showtime-card:hover {
   border-color: var(--navy);
   transform: translateY(-1px);
+}
+.showtime-card.is-selected {
+  border-color: var(--navy);
+  box-shadow:
+    0 0 0 1px var(--navy),
+    var(--shadow-card);
 }
 
 .showtime-card__time {
@@ -59,6 +73,105 @@
   color: var(--ink-soft);
   text-align: right;
   white-space: nowrap;
+}
+
+/* ---- Tarjeta lateral de cantidad de asientos ---- */
+.seat-qty {
+  position: sticky;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 20px;
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-card);
+}
+
+.seat-qty__title {
+  font-size: 18px;
+}
+
+.seat-qty__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.seat-qty__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.seat-qty__control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  background: var(--bg);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+}
+.seat-qty__btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--navy);
+  font-size: 22px;
+  line-height: 1;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+.seat-qty__btn:hover:not(:disabled) {
+  background: var(--navy);
+  color: var(--white);
+}
+.seat-qty__btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.seat-qty__value {
+  min-width: 32px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.seat-qty__note {
+  font-size: 12px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.seat-qty__cta {
+  width: 100%;
+}
+.seat-qty__hint {
+  margin-top: -8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-align: center;
+  color: var(--mist);
+}
+
+@media (max-width: 960px) {
+  .showtimes__layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .seat-qty {
+    position: static;
+    margin-bottom: 60px;
+  }
+  .showtimes__list {
+    padding-bottom: 36px;
+  }
 }
 
 @media (max-width: 640px) {

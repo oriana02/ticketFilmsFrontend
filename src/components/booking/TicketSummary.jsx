@@ -1,27 +1,64 @@
+import { QRCodeSVG } from "qrcode.react";
 import { formatMoney } from "../../data/showtimes";
-import "../../styles/Checkout.css";
+import "../../styles/Ticket.css";
 
 function formatDateTime(iso) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleString("es-CL", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit", hour12: false });
+  return d.toLocaleString("es-CL", {
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
 }
 
 // Boleto tal como lo devuelve ms-boletos (BoletoResponseDto).
 export default function TicketSummary({ boleto }) {
   return (
-    <div className="ticket">
-      <div className="ticket__head">
-        <span className="ticket__code">{boleto.codigoBoleto}</span>
-        <span className="ticket__status">{boleto.estado}</span>
+    <article className="ticket-card">
+      <div className="ticket-card__main">
+        <div className="ticket-card__top">
+          <span className="ticket-card__brand">TicketFilms</span>
+          <span className="ticket-card__status">{boleto.estado}</span>
+        </div>
+
+        <h3 className="ticket-card__title">{boleto.tituloEvento}</h3>
+
+        <dl className="ticket-card__specs">
+          <div>
+            <dt>Función</dt>
+            <dd>{formatDateTime(boleto.fechaHoraFuncion)} hrs</dd>
+          </div>
+          <div>
+            <dt>Asientos</dt>
+            <dd className="ticket-card__seats">
+              {boleto.asientos?.map((a) => (
+                <span key={a}>{a}</span>
+              ))}
+            </dd>
+          </div>
+          <div>
+            <dt>Total pagado</dt>
+            <dd>{formatMoney(boleto.precioTotal)}</dd>
+          </div>
+          <div>
+            <dt>Comprado el</dt>
+            <dd>{formatDateTime(boleto.fechaCompra)}</dd>
+          </div>
+        </dl>
       </div>
-      <h3 className="ticket__title">{boleto.tituloEvento}</h3>
-      <dl className="ticket__specs">
-        <div className="ticket__spec"><dt>Función</dt><dd>{formatDateTime(boleto.fechaHoraFuncion)} hrs</dd></div>
-        <div className="ticket__spec"><dt>Asientos</dt><dd>{boleto.asientos?.join(", ")}</dd></div>
-        <div className="ticket__spec"><dt>Total pagado</dt><dd>{formatMoney(boleto.precioTotal)}</dd></div>
-        <div className="ticket__spec"><dt>Comprado el</dt><dd>{formatDateTime(boleto.fechaCompra)}</dd></div>
-      </dl>
-    </div>
+
+      <div className="ticket-card__stub">
+        <div className="ticket-card__qr">
+          <QRCodeSVG value={boleto.codigoBoleto} size={112} />
+        </div>
+        <span className="ticket-card__code">{boleto.codigoBoleto}</span>
+        <span className="ticket-card__hint">
+          Presenta este código en la entrada
+        </span>
+      </div>
+    </article>
   );
 }
