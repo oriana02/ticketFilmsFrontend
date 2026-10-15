@@ -1,29 +1,64 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import TitleCard from "../components/home/TitleCard";
 import FilterBar from "../components/common/FilterBar";
-import useTitulos from "../hooks/useTitulos";
+import { useFiltrosCascada } from "../hooks/useFiltrosCascada";
+import { getEventos } from "../services/carteleraService";
+
+const TIPOS_EVENTO = [
+  "CINE",
+  "CONCIERTO",
+  "DEPORTE",
+  "TEATRO",
+  "FERIA",
+  "CORPORATIVO",
+];
 
 export default function Events() {
-  const { events, loading, error } = useTitulos();
-  const [category, setCategory] = useState("Todos");
-  const [city, setCity] = useState("Todas");
+  const {
+    regiones,
+    ciudades,
+    sedes,
+    region,
+    setRegion,
+    ciudad,
+    setCiudad,
+    sede,
+    setSede,
+  } = useFiltrosCascada();
 
-  const categories = useMemo(
-    () => ["Todos", ...new Set(events.map((e) => e.category))],
-    [events],
-  );
-  const cities = useMemo(
-    () => ["Todas", ...new Set(events.map((e) => e.city).filter(Boolean))],
-    [events],
-  );
+  const [tipoEvento, setTipoEvento] = useState("");
+  const [genero, setGenero] = useState("");
+  const [fecha, setFecha] = useState("");
 
-  const filtered = useMemo(() => {
-    return events.filter((e) => {
-      const matchesCategory = category === "Todos" || e.category === category;
-      const matchesCity = city === "Todas" || e.city === city;
-      return matchesCategory && matchesCity;
-    });
-  }, [events, category, city]);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchEventos = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getEventos({
+        region,
+        ciudad,
+        sede,
+        tipoEvento,
+        genero,
+        fecha,
+      });
+      setEvents(data);
+    } catch (e) {
+      setError("No se pudieron cargar los eventos.");
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Recargar cuando cambia cualquier filtro
+  useEffect(() => {
+    fetchEventos();
+  }, [region, ciudad, sede, tipoEvento, genero, fecha]);
 
   return (
     <div className="container">
@@ -39,18 +74,67 @@ export default function Events() {
       <FilterBar
         groups={[
           {
-            key: "categoria",
-            label: "Categoría",
-            value: category,
-            onChange: setCategory,
-            options: categories.map((c) => ({ value: c, label: c })),
+            key: "region",
+            label: "Región",
+            value: region,
+            onChange: setRegion,
+            options: [
+              { value: "", label: "Todas" },
+              ...regiones.map((r) => ({ value: r, label: r })),
+            ],
           },
           {
             key: "ciudad",
             label: "Ciudad",
-            value: city,
-            onChange: setCity,
-            options: cities.map((c) => ({ value: c, label: c })),
+            value: ciudad,
+            onChange: setCiudad,
+            disabled: !region,
+            options: [
+              { value: "", label: "Todas" },
+              ...ciudades.map((c) => ({ value: c, label: c })),
+            ],
+          },
+          {
+            key: "sede",
+            label: "Sede",
+            value: sede,
+            onChange: setSede,
+            disabled: !ciudad,
+            options: [
+              { value: "", label: "Todas" },
+              ...sedes.map((s) => ({ value: s, label: s })),
+            ],
+          },
+          {
+            key: "tipoEvento",
+            label: "Tipo",
+            value: tipoEvento,
+            onChange: setTipoEvento,
+            options: [
+              { value: "", label: "Todos" },
+              ...TIPOS_EVENTO.map((t) => ({ value: t, label: t })),
+            ],
+          },
+          {
+            key: "fecha",
+            label: "Fecha",
+            type: "date",
+            value: fecha,
+            onChange: setFecha,
+          },
+          {
+            key: "genero",
+            label: "Género",
+            value: genero,
+            onChange: setGenero,
+            options: [
+              { value: "", label: "Todos" },
+              { value: "Rock", label: "Rock" },
+              { value: "Pop", label: "Pop" },
+              { value: "Acción", label: "Acción" },
+              { value: "Drama", label: "Drama" },
+              // etc.
+            ],
           },
         ]}
       />
@@ -63,14 +147,14 @@ export default function Events() {
         <div className="empty-state">
           <strong>{error}</strong>
         </div>
-      ) : filtered.length === 0 ? (
+      ) : events.length === 0 ? (
         <div className="empty-state">
           <strong>No hay eventos para este filtro</strong>
-          <p>Prueba con otra categoría o ciudad.</p>
+          <p>Prueba con otra región, ciudad o tipo.</p>
         </div>
       ) : (
         <div className="poster-grid">
-          {filtered.map((e) => (
+          {events.map((e) => (
             <TitleCard key={e.id} type="evento" title={e} />
           ))}
         </div>
