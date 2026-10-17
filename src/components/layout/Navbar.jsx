@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "react-oidc-context"; // ← cambiado
-import { movies } from "../../data/movies";
-import { events } from "../../data/events";
+import { useAuth } from "react-oidc-context";
+import useTitulos from "../../hooks/useTitulos";
 import "../../styles/Navbar.css";
 
 const COGNITO_CLIENT_ID = import.meta.env.VITE_COGNITO_CLIENT_ID;
@@ -23,12 +22,9 @@ export default function Navbar() {
   const results =
     query.trim().length > 1
       ? [
-          ...movies
-            .filter((m) => m.title.toLowerCase().includes(query.toLowerCase()))
-            .map((m) => ({ kind: "pelicula", ...m })),
-          ...events
-            .filter((e) => e.title.toLowerCase().includes(query.toLowerCase()))
-            .map((e) => ({ kind: "evento", ...e })),
+          ...useTitulos().filter((t) => t.title.toLowerCase().includes(query.toLowerCase()))
+            .map((t) => ({ kind: t.kind, ...t })),
+
         ].slice(0, 6)
       : [];
 

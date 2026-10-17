@@ -4,14 +4,7 @@ import FilterBar from "../components/common/FilterBar";
 import { useFiltrosCascada } from "../hooks/useFiltrosCascada";
 import { getEventos } from "../services/carteleraService";
 
-const TIPOS_EVENTO = [
-  "CINE",
-  "CONCIERTO",
-  "DEPORTE",
-  "TEATRO",
-  "FERIA",
-  "CORPORATIVO",
-];
+const TIPOS_EVENTO = ["Concierto", "Deporte", "Teatro", "Feria", "Corporativo"];
 
 export default function Events() {
   const {
@@ -28,7 +21,6 @@ export default function Events() {
 
   const [tipoEvento, setTipoEvento] = useState("");
   const [genero, setGenero] = useState("");
-  const [fecha, setFecha] = useState("");
 
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -44,7 +36,6 @@ export default function Events() {
         sede,
         tipoEvento,
         genero,
-        fecha,
       });
       setEvents(data);
     } catch (e) {
@@ -58,7 +49,7 @@ export default function Events() {
   // Recargar cuando cambia cualquier filtro
   useEffect(() => {
     fetchEventos();
-  }, [region, ciudad, sede, tipoEvento, genero, fecha]);
+  }, [region, ciudad, sede, tipoEvento, genero]);
 
   return (
     <div className="container">
@@ -114,13 +105,6 @@ export default function Events() {
               { value: "", label: "Todos" },
               ...TIPOS_EVENTO.map((t) => ({ value: t, label: t })),
             ],
-          },
-          {
-            key: "fecha",
-            label: "Fecha",
-            type: "date",
-            value: fecha,
-            onChange: setFecha,
           },
           {
             key: "genero",

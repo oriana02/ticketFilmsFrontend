@@ -5,7 +5,7 @@ import {
   getFuncionesPorEvento,
 } from "../services/carteleraService";
 import { adaptEvento, buildSchedule } from "../services/carteleraAdapter";
-import { formatMoney } from "../data/showtimes";
+import { formatMoney } from "../utils/format";
 import { useBooking } from "../context/BookingContext";
 import useSalas from "../hooks/useSalas";
 import DateSelector from "../components/booking/DateSelector";
