@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "react-oidc-context";
 import useTitulos from "../../hooks/useTitulos";
@@ -19,19 +19,22 @@ export default function Navbar() {
   const isAuthenticated = auth.isAuthenticated;
   const user = auth.user?.profile; // { email, name, sub, ... }
 
+  const { movies, events } = useTitulos();
+  const todos = useMemo(() => [...movies, ...events], [movies, events]);
+
   const results =
     query.trim().length > 1
-      ? [
-          ...useTitulos().filter((t) => t.title.toLowerCase().includes(query.toLowerCase()))
-            .map((t) => ({ kind: t.kind, ...t })),
-
-        ].slice(0, 6)
+      ? todos
+          .filter((t) =>
+            t.title.toLowerCase().includes(query.trim().toLowerCase())
+          )
+          .slice(0, 6)
       : [];
 
   function goToResult(item) {
     setSearchOpen(false);
     setQuery("");
-    navigate(`/titulo/${item.kind}/${item.id}`);
+    navigate(`/titulo/${item.type}/${item.id}`);
   }
 
   async function handleLogout() {
@@ -138,13 +141,13 @@ export default function Navbar() {
             {results.length > 0 && (
               <ul className="nav__search-results">
                 {results.map((item) => (
-                  <li key={`${item.kind}-${item.id}`}>
+                  <li key={`${item.type}-${item.id}`}>
                     <button onClick={() => goToResult(item)}>
                       <img src={item.poster} alt="" />
                       <span>
                         <strong>{item.title}</strong>
                         <em>
-                          {item.kind === "pelicula" ? "Película" : "Evento"}
+                          {item.type === "pelicula" ? "Película" : "Evento"}
                         </em>
                       </span>
                     </button>
