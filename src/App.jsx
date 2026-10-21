@@ -14,6 +14,7 @@ import MyTickets from "./pages/MyTickets";
 import ComingSoon from "./pages/ComingSoon";
 import Login from "./pages/Login";
 import Callback from "./pages/Callback";
+import AdminKafka from "./pages/AdminKafka";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
+            <Route path="/admin/kafka" element={<AdminKafka />} />
             <Route path="/" element={<Home />} />
             <Route path="/peliculas" element={<Movies />} />
             <Route path="/eventos" element={<Events />} />
@@ -60,7 +62,10 @@ export default function App() {
                 </RequireAuth>
               }
             />
-            <Route path="*" element={<ComingSoon label="Página no encontrada" />} />
+            <Route
+              path="*"
+              element={<ComingSoon label="Página no encontrada" />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

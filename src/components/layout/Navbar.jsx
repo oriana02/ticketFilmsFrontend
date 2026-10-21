@@ -8,6 +8,8 @@ const COGNITO_CLIENT_ID = import.meta.env.VITE_COGNITO_CLIENT_ID;
 const COGNITO_DOMAIN = import.meta.env.VITE_COGNITO_DOMAIN;
 const LOGOUT_URI =
   import.meta.env.VITE_COGNITO_LOGOUT_URI || "http://localhost:5173/";
+// Debe coincidir con ADMIN_GROUP de ms-notificaciones (por defecto "admin").
+const ADMIN_GROUP = import.meta.env.VITE_ADMIN_GROUP || "admin";
 
 export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -19,6 +21,10 @@ export default function Navbar() {
   const isAuthenticated = auth.isAuthenticated;
   const user = auth.user?.profile; // { email, name, sub, ... }
 
+  // Cognito pone los grupos del usuario en el claim "cognito:groups" del id_token.
+  const grupos = user?.["cognito:groups"];
+  const isAdmin = Array.isArray(grupos) && grupos.includes(ADMIN_GROUP);
+
   const { movies, events } = useTitulos();
   const todos = useMemo(() => [...movies, ...events], [movies, events]);
 
@@ -26,7 +32,7 @@ export default function Navbar() {
     query.trim().length > 1
       ? todos
           .filter((t) =>
-            t.title.toLowerCase().includes(query.trim().toLowerCase())
+            t.title.toLowerCase().includes(query.trim().toLowerCase()),
           )
           .slice(0, 6)
       : [];
@@ -86,6 +92,11 @@ export default function Navbar() {
             >
               Iniciar sesión
             </button>
+          )}
+          {isAdmin && (
+            <NavLink to="/admin/kafka" onClick={() => setMenuOpen(false)}>
+              Admin
+            </NavLink>
           )}
         </nav>
 
