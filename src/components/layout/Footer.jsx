@@ -13,8 +13,9 @@ export default function Footer() {
             TF
           </span>
           <p>
-            TicketFilms reúne cine independiente, estrenos, festivales y
-            funciones especiales en un solo lugar.
+            Una plataforma, todas las experiencias. <br />
+            Cine, música, deporte, artes escénicas y eventos especiales en un
+            solo lugar.
           </p>
         </div>
 
@@ -33,11 +34,9 @@ export default function Footer() {
 
         <div className="footer__col">
           <span className="eyebrow">Salas</span>
-          {salas.map((s) => (
-            <span className="footer__static" key={s.id}>
-              {s.nombre}
-            </span>
-          ))}
+          <span className="footer__static">Sala 1 — Lumière</span>
+          <span className="footer__static">Sala 2 — Meliès</span>
+          <span className="footer__static">Sala 3 — Varda</span>
         </div>
       </div>
       <div className="container footer__bottom">

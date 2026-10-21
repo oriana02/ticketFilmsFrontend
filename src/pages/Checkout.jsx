@@ -3,7 +3,7 @@ import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useBooking } from "../context/BookingContext";
 import { confirmarCompra } from "../services/boletosService";
 import { liberarReserva } from "../services/asientosService";
-import { formatMoney } from "../data/showtimes";
+import { formatMoney } from "../utils/format";
 import { errorMessage } from "../utils/apiError";
 import BookingSteps from "../components/booking/BookingSteps";
 import "../styles/Checkout.css";

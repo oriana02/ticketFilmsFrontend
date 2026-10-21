@@ -1,5 +1,5 @@
 import { QRCodeSVG } from "qrcode.react";
-import { formatMoney } from "../../data/showtimes";
+import { formatMoney } from "../../utils/format";
 import "../../styles/Ticket.css";
 
 function formatDateTime(iso) {

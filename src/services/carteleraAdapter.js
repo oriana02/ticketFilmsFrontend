@@ -54,6 +54,9 @@ export function adaptEvento(e) {
     city: e.ciudad || "",
     duration: e.duracionMinutos ?? null,
     rating: e.clasificacion || "",
+    city: e.ciudad || "",
+    region: e.region || "",
+    sede: e.sede || "",
   };
 
   if (type === "pelicula") {

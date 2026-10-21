@@ -4,7 +4,7 @@ import { useAuth } from "react-oidc-context";
 import { useBooking } from "../context/BookingContext";
 import { loadSeatMap, seatMapErrorMessage } from "../services/mapaAsientos";
 import { reservarAsientos } from "../services/asientosService";
-import { formatMoney } from "../data/showtimes";
+import { formatMoney } from "../utils/format";
 import { errorMessage } from "../utils/apiError";
 import BookingSteps from "../components/booking/BookingSteps";
 import "../styles/Seats.css";
