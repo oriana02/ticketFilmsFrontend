@@ -7,11 +7,7 @@ import { getEventos } from "../services/carteleraService";
 const TIPOS_EVENTO = ["Concierto", "Deporte", "Teatro", "Feria", "Corporativo"];
 
 export default function Events() {
-  const {
-    regiones,
-    region,
-    setRegion,
-  } = useFiltrosCascada();
+  const { regiones, region, setRegion } = useFiltrosCascada();
 
   const [tipoEvento, setTipoEvento] = useState("");
   const [genero, setGenero] = useState("");
@@ -24,11 +20,7 @@ export default function Events() {
     setLoading(true);
     setError(null);
     try {
-      const data = await getEventos({
-        region,
-        tipoEvento,
-        genero,
-      });
+      const data = await getEventos({ region, tipoEvento, genero });
       setEvents(data);
     } catch (e) {
       setError("No se pudieron cargar los eventos.");
