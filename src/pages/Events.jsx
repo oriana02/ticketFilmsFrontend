@@ -9,14 +9,8 @@ const TIPOS_EVENTO = ["Concierto", "Deporte", "Teatro", "Feria", "Corporativo"];
 export default function Events() {
   const {
     regiones,
-    ciudades,
-    sedes,
     region,
     setRegion,
-    ciudad,
-    setCiudad,
-    sede,
-    setSede,
   } = useFiltrosCascada();
 
   const [tipoEvento, setTipoEvento] = useState("");
@@ -32,8 +26,6 @@ export default function Events() {
     try {
       const data = await getEventos({
         region,
-        ciudad,
-        sede,
         tipoEvento,
         genero,
       });
@@ -49,7 +41,7 @@ export default function Events() {
   // Recargar cuando cambia cualquier filtro
   useEffect(() => {
     fetchEventos();
-  }, [region, ciudad, sede, tipoEvento, genero]);
+  }, [region, tipoEvento, genero]);
 
   return (
     <div className="container">
@@ -72,28 +64,6 @@ export default function Events() {
             options: [
               { value: "", label: "Todas" },
               ...regiones.map((r) => ({ value: r, label: r })),
-            ],
-          },
-          {
-            key: "ciudad",
-            label: "Ciudad",
-            value: ciudad,
-            onChange: setCiudad,
-            disabled: !region,
-            options: [
-              { value: "", label: "Todas" },
-              ...ciudades.map((c) => ({ value: c, label: c })),
-            ],
-          },
-          {
-            key: "sede",
-            label: "Sede",
-            value: sede,
-            onChange: setSede,
-            disabled: !ciudad,
-            options: [
-              { value: "", label: "Todas" },
-              ...sedes.map((s) => ({ value: s, label: s })),
             ],
           },
           {
@@ -134,7 +104,7 @@ export default function Events() {
       ) : events.length === 0 ? (
         <div className="empty-state">
           <strong>No hay eventos para este filtro</strong>
-          <p>Prueba con otra región, ciudad o tipo.</p>
+          <p>Prueba con otra región o tipo.</p>
         </div>
       ) : (
         <div className="poster-grid">
