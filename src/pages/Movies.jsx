@@ -27,7 +27,7 @@ export default function Movies() {
         (m) =>
           m.status === status &&
           (genre === "Todos" || m.genres.includes(genre)) &&
-          (!region || m.region === region)
+          (!region || m.region === region),
       ),
     [movies, status, genre, region],
   );
@@ -59,9 +59,7 @@ export default function Movies() {
             key: "region",
             label: "Región",
             value: region,
-            onChange: (v) => {
-              setRegion(v);
-            },
+            onChange: setRegion,
             options: [
               { value: "", label: "Todas" },
               ...regiones.map((r) => ({ value: r, label: r })),
