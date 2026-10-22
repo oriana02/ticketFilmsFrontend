@@ -102,7 +102,7 @@ export default function Detail() {
             ) : (
               <>
                 {data.category && <Badge tone="navy">{data.category}</Badge>}
-                {data.city && <Badge tone="outline">{data.city}</Badge>}
+                {data.sede && <Badge tone="outline">{data.sede}</Badge>}
               </>
             )}
           </div>
@@ -114,7 +114,8 @@ export default function Detail() {
           <dl className="detail__specs">
             {isMovie ? (
               <>
-                <Spec label="Ciudad" value={data.city} />
+                <Spec label="Región" value={data.region} />
+                <Spec label="Sede" value={data.sede} />
                 <Spec label="Género" value={genero} />
                 <Spec label="Dirección" value={data.director} />
                 <Spec label="Reparto" value={cast} />
@@ -125,7 +126,8 @@ export default function Detail() {
             ) : (
               <>
                 <Spec label="Sala / lugar" value={data.venue} />
-                <Spec label="Ciudad" value={data.city} />
+                <Spec label="Región" value={data.region} />
+                <Spec label="Sede" value={data.sede} />
                 <Spec label="Duración" value={duracion} />
                 <Spec label="Próxima fecha" value={data.dateLabel} />
                 <Spec label="Categoría" value={data.category} />

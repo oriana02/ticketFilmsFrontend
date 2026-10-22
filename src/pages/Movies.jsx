@@ -10,7 +10,6 @@ export default function Movies() {
   const status = params.get("estado") || "cartelera";
   const [genre, setGenre] = useState("Todos");
   const [region, setRegion] = useState("");
-  const [ciudad, setCiudad] = useState("");
 
   const genres = useMemo(
     () => ["Todos", ...new Set(movies.flatMap((m) => m.genres))],
@@ -21,18 +20,6 @@ export default function Movies() {
     () => [...new Set(movies.map((m) => m.region).filter(Boolean))].sort(),
     [movies],
   );
-  const ciudades = useMemo(
-    () =>
-      [
-        ...new Set(
-          movies
-            .filter((m) => m.region === region)
-            .map((m) => m.city)
-            .filter(Boolean),
-        ),
-      ].sort(),
-    [movies, region],
-  );
 
   const filtered = useMemo(
     () =>
@@ -40,10 +27,9 @@ export default function Movies() {
         (m) =>
           m.status === status &&
           (genre === "Todos" || m.genres.includes(genre)) &&
-          (!region || m.region === region) &&
-          (!ciudad || m.city === ciudad),
+          (!region || m.region === region)
       ),
-    [movies, status, genre, region, ciudad],
+    [movies, status, genre, region],
   );
 
   return (
@@ -75,21 +61,10 @@ export default function Movies() {
             value: region,
             onChange: (v) => {
               setRegion(v);
-              setCiudad("");
             },
             options: [
               { value: "", label: "Todas" },
               ...regiones.map((r) => ({ value: r, label: r })),
-            ],
-          },
-          {
-            key: "ciudad",
-            label: "Ciudad",
-            value: ciudad,
-            onChange: setCiudad,
-            options: [
-              { value: "", label: "Todas" },
-              ...ciudades.map((c) => ({ value: c, label: c })),
             ],
           },
           {
