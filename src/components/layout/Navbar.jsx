@@ -94,7 +94,7 @@ export default function Navbar() {
             </button>
           )}
           {isAdmin && (
-            <NavLink to="/admin/kafka" onClick={() => setMenuOpen(false)}>
+            <NavLink to="/admin" onClick={() => setMenuOpen(false)}>
               Admin
             </NavLink>
           )}

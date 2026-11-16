@@ -73,3 +73,33 @@ export async function getSedes(ciudad) {
   });
   return data;
 }
+
+// ─────────────────────────────────────────────
+// ADMIN (requiere JWT del grupo admin)
+// ─────────────────────────────────────────────
+
+export async function actualizarEvento(id, evento) {
+  const { data } = await apiClient.put(`/api/cartelera/eventos/${id}`, evento);
+  return data;
+}
+
+export async function eliminarEvento(id) {
+  await apiClient.delete(`/api/cartelera/eventos/${id}`);
+}
+
+export async function crearFuncion(funcion) {
+  const { data } = await apiClient.post("/api/cartelera/funciones", funcion);
+  return data;
+}
+
+export async function actualizarFuncion(id, funcion) {
+  const { data } = await apiClient.put(
+    `/api/cartelera/funciones/${id}`,
+    funcion,
+  );
+  return data;
+}
+
+export async function eliminarFuncion(id) {
+  await apiClient.delete(`/api/cartelera/funciones/${id}`);
+}
