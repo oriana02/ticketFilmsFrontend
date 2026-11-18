@@ -1,0 +1,65 @@
+.admin { max-width: 900px; margin: 0 auto; padding-bottom: 80px; }
+
+.admin__tabs { display: flex; gap: 8px; margin-bottom: 28px; }
+
+.admin__card {
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-l);
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+
+.admin__head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.admin__title { font-size: 20px; margin-bottom: 16px; }
+.admin__head .admin__title { margin-bottom: 0; }
+
+.admin__form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px; }
+.admin__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.admin__field--grow { flex: 1 1 100%; }
+.admin__field input,
+.admin__field select,
+.admin__field textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--mist-dim);
+  border-radius: var(--radius-m);
+  background: var(--white);
+  font-size: 15px;
+  min-width: 160px;
+}
+.admin__field--grow input,
+.admin__field--grow textarea { width: 100%; }
+.admin__field input:focus,
+.admin__field select:focus,
+.admin__field textarea:focus { outline: none; border-color: var(--rust); }
+
+.admin__check { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-soft); }
+.admin__form-actions { display: flex; gap: 12px; flex: 1 1 100%; margin-top: 8px; }
+
+.admin__feedback {
+  padding: 12px 16px;
+  border-radius: var(--radius-m);
+  margin-bottom: 24px;
+  font-size: 14.5px;
+  border: 1px solid var(--hairline);
+}
+.admin__feedback--ok { border-color: var(--navy); color: var(--navy); }
+.admin__feedback--error { border-color: #dc2626; color: #dc2626; }
+
+.admin__list { display: flex; flex-direction: column; margin-top: 16px; }
+.admin__item { padding: 12px 0; border-bottom: 1px dashed var(--hairline); }
+.admin__item:last-child { border-bottom: none; }
+.admin__row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.admin__name { font-family: var(--font-mono); font-size: 14px; }
+.admin__actions { margin-left: auto; display: flex; gap: 8px; }
+.admin__empty { margin-top: 12px; color: var(--ink-soft); font-size: 14.5px; }
+
+@media (max-width: 640px) {
+  .admin__actions { margin-left: 0; width: 100%; }
+}
