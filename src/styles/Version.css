@@ -1,0 +1,23 @@
+.nav__version {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: transparent;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  padding: 5px 10px;
+}
+select.nav__version { cursor: pointer; }
+
+.version-blocked__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+.version-blocked__hint { margin-top: 24px; font-size: 14px; }

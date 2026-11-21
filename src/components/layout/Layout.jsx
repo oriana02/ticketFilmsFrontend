@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import VersionGate from "../auth/VersionGate";
 
 export default function Layout() {
   const { pathname } = useLocation();
@@ -14,7 +15,7 @@ export default function Layout() {
     <div className="app-shell">
       <Navbar />
       <main>
-        <Outlet />
+        <VersionGate><Outlet /></VersionGate>
       </main>
       <Footer />
     </div>
