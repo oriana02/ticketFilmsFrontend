@@ -40,7 +40,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="container footer__bottom">
-        <span>© {new Date().getFullYear()} TicketFilms</span>
+        <span>© {new Date().getFullYear()} TicketFilms · versión {import.meta.env.VITE_APP_VERSION}</span>
         <span className="footer__frame">FRAME 24/24 — FIN DE ROLLO</span>
       </div>
     </footer>
