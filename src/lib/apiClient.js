@@ -31,7 +31,7 @@ apiClient.interceptors.request.use(async (config) => {
   }
 
   if (user && user.access_token) {
-    config.headers.Authorization = Bearer ${user.access_token};
+    config.headers.Authorization = `Bearer ${user.access_token}`;
     console.log("[apiClient] Authorization adjuntado a", config.url);
   } else {
     console.warn("[apiClient] NO hay token para", config.url);
@@ -53,4 +53,4 @@ apiClient.interceptors.response.use(
   },
 );
 
-export default apiClient
+export default apiClient;
