@@ -45,13 +45,23 @@ apiClient.interceptors.request.use(async (config) => {
 });
 
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    sessionStorage.removeItem("auth_redirect_at");
+    return response;
+  },
   (error) => {
     const url = error.config?.url || "";
+    const method = error.config?.method;
     console.warn("[apiClient] error", error.response?.status, url);
-    if (error.response?.status === 401 && !esPublica(url)) {
-      console.warn("[apiClient] 401 → signinRedirect");
-      userManager.signinRedirect();
+
+    const esSalas = url.split("?")[0].startsWith("/api/asientos/sala");
+
+    if (error.response?.status === 401 && !esPublica(url, method) && !esSalas) {
+      const last = Number(sessionStorage.getItem("auth_redirect_at") || 0);
+      if (Date.now() - last > 30000) {
+        sessionStorage.setItem("auth_redirect_at", String(Date.now()));
+        userManager.signinRedirect();
+      }
     }
     return Promise.reject(error);
   },
