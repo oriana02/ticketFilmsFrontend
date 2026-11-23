@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
-import useSalas from "../../hooks/useSalas";
 import "../../styles/Footer.css";
 
 export default function Footer() {
-  const salas = useSalas();
 
   return (
     <footer className="footer">
