@@ -31,7 +31,7 @@ apiClient.interceptors.request.use(async (config) => {
   }
 
   if (user && user.access_token) {
-    config.headers.Authorization = `Bearer ${user.access_token}`;
+    config.headers.Authorization = Bearer ${user.access_token};
     console.log("[apiClient] Authorization adjuntado a", config.url);
   } else {
     console.warn("[apiClient] NO hay token para", config.url);
@@ -41,26 +41,16 @@ apiClient.interceptors.request.use(async (config) => {
 });
 
 apiClient.interceptors.response.use(
-  (response) => {
-    sessionStorage.removeItem("auth_redirect_at");
-    return response;
-  },
+  (response) => response,
   (error) => {
     const url = error.config?.url || "";
-    const method = error.config?.method;
     console.warn("[apiClient] error", error.response?.status, url);
-
-    const esSalas = url.split("?")[0].startsWith("/api/asientos/sala");
-
-    if (error.response?.status === 401 && !esPublica(url, method) && !esSalas) {
-      const last = Number(sessionStorage.getItem("auth_redirect_at") || 0);
-      if (Date.now() - last > 30000) {
-        sessionStorage.setItem("auth_redirect_at", String(Date.now()));
-        userManager.signinRedirect();
-      }
+    if (error.response?.status === 401 && !esPublica(url)) {
+      console.warn("[apiClient] 401 → signinRedirect");
+      userManager.signinRedirect();
     }
     return Promise.reject(error);
   },
 );
 
-export default apiClient;
+export default apiClient
