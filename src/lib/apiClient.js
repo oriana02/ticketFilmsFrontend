@@ -6,7 +6,8 @@ const apiClient = axios.create({
 });
 
 const esPublica = (url = "") =>
-  url.includes("/api/cartelera") || url.includes("/api/asientos/sala");
+  url.includes("/api/cartelera") ||
+  /\/api\/asientos\/sala\/?(\?.*)?$/.test(url);
 
 apiClient.interceptors.request.use(async (config) => {
   if (esPublica(config.url)) {
